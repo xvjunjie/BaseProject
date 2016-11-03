@@ -403,4 +403,22 @@ public final class FileUtil {
         BigInteger bigInt = new BigInteger(1, digest.digest());
         return bigInt.toString(16);
     }
+
+
+    /**
+     * 创建文件夹
+     *
+     * @param dir
+     */
+    public static void createDir(String dir) {
+        if (dir == null || "".equals(dir)) {
+            return;
+        }
+        File f = new File(dir);
+        if (!f.exists()) {
+            f.mkdirs();
+        }
+    }
+
+
 }

@@ -11,6 +11,10 @@ import android.view.View;
 import android.widget.Button;
 
 import com.android.baselibrary.utils.NotifyUtil;
+import com.android.baselibrary.widget.normaldialog.basedialog.BaseAnimatorSet;
+import com.android.baselibrary.widget.normaldialog.BounceTopEnter;
+import com.android.baselibrary.widget.normaldialog.NormalDialog;
+import com.android.baselibrary.widget.normaldialog.SlideBottomExit;
 import com.android.baseproject.R;
 
 import butterknife.Bind;
@@ -30,10 +34,16 @@ public class MainActivity extends AppBaseActivity {
     Button btndbhelper;
     @Bind(R.id.btn_picasso)
     Button btnpicasso;
+    @Bind(R.id.btn_test_dialog)
+    Button btn_dialog ;
 
     private Context mContext;
     private NotifyUtil currentNotify;
     private int requestCode = (int) SystemClock.uptimeMillis();
+
+    private BaseAnimatorSet mBasIn;
+    private BaseAnimatorSet mBasOut;
+
 
     @Override
     public int getLayoutResId() {
@@ -47,14 +57,16 @@ public class MainActivity extends AppBaseActivity {
 
     }
 
-    @OnClick({R.id.btn_loading, R.id.btn_notify,R.id.btn_textadapter,R.id.btn_dbhelper,R.id.btn_picasso})
+    @OnClick({R.id.btn_loading, R.id.btn_notify,
+            R.id.btn_textadapter,R.id.btn_dbhelper,
+            R.id.btn_picasso,R.id.btn_test_dialog})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_loading:
                 showDialog();
                 break;
             case R.id.btn_notify:
-                notify_normal_singLine();
+                notify_normal_singLine();//通知
                 break;
             case R.id.btn_textadapter :
                 startActivity(this,TestAdapterActivity.class);
@@ -65,7 +77,22 @@ public class MainActivity extends AppBaseActivity {
             case R.id.btn_picasso :
                 startActivity(this,TestOkPicassoActivity.class);
                 break;
+            case R.id.btn_test_dialog :
+                NormalDialogStyleTwo();//两个按钮的对话框
+
         }
+    }
+
+    private void NormalDialogStyleTwo() {
+        mBasIn = new BounceTopEnter();
+        mBasOut = new SlideBottomExit();
+        NormalDialog mNormalDialog = new NormalDialog(this);
+        mNormalDialog.content("我来了")
+                .style(NormalDialog.STYLE_TWO)
+                .titleTextSize(23)
+                .showAnim(mBasIn)
+                .dismissAnim(mBasOut)
+                .show();
     }
 
     private void notify_normal_singLine() {
